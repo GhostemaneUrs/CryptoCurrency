@@ -1,17 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled/";
-import crypo from "../assets/img/imagen-criptos.png";
 import FormCrypo from "../components/Form";
+import ListCrypo from "../components/List";
+import MoonLoader from "react-spinners/ClipLoader";
 
 const index = () => {
+  const [loading, setLoading] = useState(false);
+  const [quoteCrypo, setQuoteCrypo] = useState({});
+  const [cryptocurrency, setCryptoCurrency] = useState({});
+
+  useEffect(() => {
+    if (Object.keys(cryptocurrency).length > 0) {
+      setLoading(true);
+      const { coin, crypto } = cryptocurrency;
+      const quoteCrypo = async () => {
+        const response = await fetch(
+          `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${crypto}&tsyms=${coin}`
+        );
+        const data = await response.json();
+        setQuoteCrypo(data.DISPLAY[crypto][coin]);
+        setLoading(false);
+      };
+      quoteCrypo();
+    }
+  }, [cryptocurrency]);
+
   return (
     <Container>
+      <Title>Trade your crypto instantly</Title>
       <Grid>
-        <Image src={crypo} alt="img-crypo" />
         <div>
-          <Title>Trade your crypto instantly</Title>
-          <FormCrypo />
+          <FormCrypo setCryptoCurrency={setCryptoCurrency} />
         </div>
+        {loading ? (
+          <ContainerSpinner>
+            <MoonLoader size={150} color={"#fff"} loading={loading} />
+          </ContainerSpinner>
+        ) : (
+          <ListCrypo quoteCrypo={quoteCrypo} />
+        )}
       </Grid>
     </Container>
   );
@@ -19,25 +46,25 @@ const index = () => {
 
 const Container = styled.div`
   width: 100%;
-  display: flex;
   padding: 1rem;
   margin: 0 auto;
   max-width: 1400px;
+`;
+
+const ContainerSpinner = styled.div`
+  display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const Grid = styled.div`
   gap: 1rem;
+  width: 100%;
   display: grid;
-  align-items: center;
+  margin: 0 auto;
+  max-width: 900px;
   justify-content: center;
   grid-template-columns: repeat(2, 1fr);
-`;
-
-const Image = styled.img`
-  width: 100%;
-  max-width: 400px;
 `;
 
 const Title = styled.h1`
@@ -45,12 +72,14 @@ const Title = styled.h1`
   font-size: 30px;
   font-weight: 700;
   text-align: center;
+  margin-bottom: 60px;
   text-transform: uppercase;
   &::after {
     content: "";
     width: 100%;
     height: 6px;
     display: block;
+    max-width: 500px;
     margin: 10px auto;
     border-radius: 6px;
     background-color: #66a2f2;
