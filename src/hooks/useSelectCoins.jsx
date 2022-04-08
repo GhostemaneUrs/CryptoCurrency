@@ -25,7 +25,7 @@ const Title = styled.label`
   display: block;
   font-size: 24px;
   font-weight: 700;
-  margin: 15px auto;
+  margin-bottom: 15px;
 `;
 
 const SelectOptions = styled.select`
