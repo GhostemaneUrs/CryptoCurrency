@@ -64,7 +64,9 @@ const Grid = styled.div`
   margin: 0 auto;
   max-width: 900px;
   justify-content: center;
-  grid-template-columns: repeat(2, 1fr);
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const Title = styled.h1`
