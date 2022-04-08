@@ -4,7 +4,7 @@ import useSelectCoins from "../../hooks/useSelectCoins";
 import data from "../../assets/data/coins.json";
 import Swal from "sweetalert2";
 
-const index = () => {
+const index = ({ setCryptoCurrency }) => {
   const [coins, setCoins] = useState(data);
   const [cryptos, setCryptos] = useState([]);
   const [coin, SelectCoin] = useSelectCoins("Choose your currency", coins);
@@ -39,7 +39,7 @@ const index = () => {
         text: "Please, select a currency and a cryptocurrency",
       });
     } else {
-      alert(`You choose ${coin} and ${crypto}`);
+      setCryptoCurrency({ coin, crypto });
     }
   };
 
@@ -60,6 +60,7 @@ const InputSubmit = styled.input`
   font-size: 20px;
   font-weight: 700;
   border-radius: 5px;
+  margin-bottom: 20px;
   text-transform: uppercase;
   background-color: #9497ff;
   transition: background-color 0.3s ease;
