@@ -1,0 +1,22 @@
+[
+  {
+    "id": "EUR",
+    "name": "Euro"
+  },
+  {
+    "id": "MXN",
+    "name": "Mexican peso"
+  },
+  {
+    "id": "GBP",
+    "name": "Pound sterling"
+  },
+  {
+    "id": "COP",
+    "name": "Colombian peso"
+  },
+  {
+    "id": "USD",
+    "name": "United states dollar"
+  }
+]
